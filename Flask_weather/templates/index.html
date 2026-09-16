@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>FOX AI Weather Buddy</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at 50% 10%, rgba(0, 140, 255, .12), transparent 32%),
+                linear-gradient(135deg, #06172b, #03101f 70%, #06202d);
+            color: #f4f8ff;
+        }
+
+        .brand-logo {
+            width: 270px;
+            height: 210px;
+            object-fit: cover;
+            border: 10px solid #087ff5;
+            border-radius: 24px;
+            padding: 12px;
+            background: #071529;
+            box-shadow: 0 0 25px rgba(0, 139, 255, .45);
+        }
+
+        .brand-title {
+            font-weight: 800;
+            letter-spacing: -.5px;
+        }
+
+        .brand-title span {
+            color: #00cfff;
+        }
+
+        .subtitle {
+            color: #91a8bf;
+        }
+
+        .weather-card {
+            max-width: 620px;
+            margin: 20px auto;
+            background: rgba(9, 27, 48, .78);
+            border: 1px solid rgba(130, 170, 210, .18);
+            border-radius: 22px;
+            box-shadow: 0 18px 50px rgba(0, 0, 0, .28);
+        }
+
+        .form-label {
+            color: #a9bdd1;
+            font-size: .85rem;
+            font-weight: 600;
+        }
+
+        .form-control {
+            background-color: #061426;
+            border-color: #1d3855;
+            color: #eef6ff;
+        }
+
+        .form-control:focus {
+            background-color: #061426;
+            color: #fff;
+            border-color: #08a9e8;
+            box-shadow: 0 0 0 .2rem rgba(0, 169, 232, .12);
+        }
+
+        .form-control::placeholder {
+            color: #4b6278;
+        }
+
+        .weather-btn {
+            border: 0;
+            background: linear-gradient(90deg, #087cf0, #05b7df);
+            color: white;
+            font-weight: 700;
+            border-radius: 12px;
+            padding: 13px 18px;
+        }
+
+        .weather-btn:hover {
+            filter: brightness(1.08);
+            color: white;
+        }
+
+        .helper,
+        .footer {
+            color: #58718a;
+            font-size: .8rem;
+        }
+
+        .location-icon {
+            font-size: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container py-4 py-md-5">
+
+    <div class="text-center">
+        <img src="{{ url_for('static', filename='new.jpg') }}"
+             alt="FOX AI"
+             class="brand-logo">
+
+        <h1 class="brand-title mt-3 mb-1">
+             <span>AI Weather Buddy</span>
+        </h1>
+
+        <p class="subtitle mb-4">Ask the weather. Get a live answer.</p>
+    </div>
+
+    <div class="weather-card p-3 p-md-4">
+
+        <form action="{{ url_for('weather') }}" method="POST">
+
+            <div class="text-center mb-4">
+                <div class="location-icon">📍</div>
+                <div class="helper mt-1">
+                    Enter a location and  AI will fetch its live weather.
+                </div>
+            </div>
+
+            <div class="row g-3">
+                <div class="col-12">
+                    <label class="form-label">City</label>
+                    <input
+                        type="text"
+                        name="city"
+                        class="form-control form-control-lg"
+                        value="{{ city|default('Kolhapur') }}"
+                        placeholder="Kolhapur"
+                        required>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">State</label>
+                    <input
+                        type="text"
+                        name="state"
+                        class="form-control form-control-lg"
+                        value="{{ state|default('Maharashtra') }}"
+                        placeholder="Maharashtra"
+                        required>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Country</label>
+                    <input
+                        type="text"
+                        name="country"
+                        class="form-control form-control-lg"
+                        value="{{ country|default('India') }}"
+                        placeholder="India"
+                        required>
+                </div>
+            </div>
+
+            {% if error %}
+                <div class="alert alert-danger mt-3 mb-0 py-2">
+                    {{ error }}
+                </div>
+            {% endif %}
+
+            <button type="submit" class="btn weather-btn w-100 mt-3">
+                🌦️ Check Live Weather
+            </button>
+        </form>
+    </div>
+
+    <div class="text-center footer mt-4">
+         New College,Kolhapur
+    </div>
+</div>
+</body>
+</html>

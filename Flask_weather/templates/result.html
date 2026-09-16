@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>FOX AI Weather Buddy - Result</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            min-height: 100vh;
+            overflow-x: hidden;
+            background:
+                radial-gradient(circle at 50% 10%, rgba(0, 140, 255, .12), transparent 32%),
+                linear-gradient(135deg, #06172b, #03101f 70%, #06202d);
+            color: #f4f8ff;
+        }
+
+        .brand-logo {
+            width: 270px;
+            height: 210px;
+            object-fit: cover;
+            border: 7px solid #087ff5;
+            border-radius: 20px;
+            padding: 8px;
+            background: #071529;
+            box-shadow: 0 0 22px rgba(0, 139, 255, .4);
+        }
+
+        .brand-title {
+            font-weight: 800;
+        }
+
+        .brand-title span {
+            color: #00cfff;
+        }
+
+        .result-card {
+            max-width: 900px;
+            margin: 24px auto;
+            background: rgba(9, 27, 48, .82);
+            border: 1px solid rgba(130, 170, 210, .18);
+            border-radius: 22px;
+            box-shadow: 0 18px 50px rgba(0, 0, 0, .28);
+            overflow: hidden;
+        }
+
+        .weather-main {
+            position: relative;
+            min-height: 380px;
+            padding: 35px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #123858, #071a2d);
+        }
+
+        .weather-main.sunny {
+            background: linear-gradient(135deg, #9a6415, #183c5b);
+        }
+
+        .weather-main.rainy,
+        .weather-main.storm {
+            background: linear-gradient(135deg, #173d5a, #071725);
+        }
+
+        .weather-main.winter {
+            background: linear-gradient(135deg, #315b76, #0a2032);
+        }
+
+        .weather-main.cloudy,
+        .weather-main.foggy {
+            background: linear-gradient(135deg, #385469, #0b2031);
+        }
+
+        .sun {
+            position: absolute;
+            right: 55px;
+            top: 40px;
+            font-size: 7rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .cloud {
+            position: absolute;
+            right: 50px;
+            top: 60px;
+            font-size: 6rem;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .rain-animation {
+            position: absolute;
+            right: 60px;
+            top: 40px;
+            font-size: 6rem;
+            animation: float 2s ease-in-out infinite;
+        }
+
+        .storm-animation {
+            position: absolute;
+            right: 55px;
+            top: 45px;
+            font-size: 6rem;
+            animation: pulse 1.3s infinite;
+        }
+
+        .winter-animation {
+            position: absolute;
+            right: 55px;
+            top: 45px;
+            font-size: 6rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        .location {
+            color: #b5c9db;
+            font-size: .95rem;
+        }
+
+        .temperature {
+            font-size: 5rem;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .condition {
+            font-size: 1.35rem;
+            color: #bfeeff;
+            font-weight: 600;
+        }
+
+        .weather-info {
+            padding: 28px;
+            background: #07192b;
+        }
+
+        .info-item {
+            background: #061426;
+            border: 1px solid #1d3855;
+            border-radius: 14px;
+            padding: 15px;
+            height: 100%;
+        }
+
+        .info-label {
+            color: #718da5;
+            font-size: .75rem;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .info-value {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-top: 4px;
+        }
+
+        .back-btn {
+            border: 1px solid #17658c;
+            color: #8bdfff;
+            border-radius: 10px;
+        }
+
+        .back-btn:hover {
+            background: #0b2c43;
+            color: white;
+        }
+
+        .footer {
+            color: #58718a;
+            font-size: .8rem;
+        }
+
+        @media (max-width: 575px) {
+            .weather-main {
+                min-height: 330px;
+                padding: 25px;
+            }
+
+            .sun,
+            .cloud,
+            .rain-animation,
+            .storm-animation,
+            .winter-animation {
+                right: 20px;
+                top: 25px;
+                font-size: 4.5rem;
+            }
+
+            .temperature {
+                font-size: 4rem;
+                margin-top: 100px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="container py-4 py-md-5">
+
+    <div class="text-center">
+        <img src="{{ url_for('static', filename='new.jpg') }}"
+             alt="FOX AI"
+             class="brand-logo">
+
+        <h2 class="brand-title mt-3">
+            <span>AI Weather Buddy</span>
+        </h2>
+    </div>
+
+    <div class="result-card">
+
+        <div class="weather-main {{ weather.animation }}">
+
+            {% if weather.animation == "sunny" %}
+                <div class="sun">☀️</div>
+            {% elif weather.animation == "rainy" %}
+                <div class="rain-animation">🌧️</div>
+            {% elif weather.animation == "storm" %}
+                <div class="storm-animation">⛈️</div>
+            {% elif weather.animation == "winter" %}
+                <div class="winter-animation">❄️</div>
+            {% else %}
+                <div class="cloud">☁️</div>
+            {% endif %}
+
+            <div class="position-relative">
+                <div class="location">
+                    📍 {{ city }}, {{ state }}, {{ country }}
+                </div>
+
+                <div class="temperature mt-3">
+                    {{ weather.temperature }}°C
+                </div>
+
+                <div class="condition mt-2">
+                    {{ weather.icon }} {{ weather.condition }}
+                </div>
+
+                <div class="location mt-2">
+                    Feels like {{ weather.feels_like }}°C
+                </div>
+            </div>
+        </div>
+
+        <div class="weather-info">
+
+            <div class="row g-3">
+
+                <div class="col-6 col-md-3">
+                    <div class="info-item">
+                        <div class="info-label">Humidity</div>
+                        <div class="info-value">💧 {{ weather.humidity }}%</div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3">
+                    <div class="info-item">
+                        <div class="info-label">Wind</div>
+                        <div class="info-value">💨 {{ weather.wind }} km/h</div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3">
+                    <div class="info-item">
+                        <div class="info-label">Rain</div>
+                        <div class="info-value">🌧️ {{ weather.rain }} mm</div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3">
+                    <div class="info-item">
+                        <div class="info-label">Cloud Cover</div>
+                        <div class="info-value">☁️ {{ weather.cloud_cover }}%</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="text-center mt-4">
+                <a href="{{ url_for('home') }}" class="btn back-btn px-4">
+                    ← Check Another City
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="text-center footer mt-4">
+         New College,Kolhapur
+    </div>
+</div>
+</body>
+</html>

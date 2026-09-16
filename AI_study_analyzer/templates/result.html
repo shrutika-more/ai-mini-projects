@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>FOX AI Text Generator - Result</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at 50% 10%, rgba(0, 140, 255, .12), transparent 32%),
+                linear-gradient(135deg, #06172b, #03101f 70%, #06202d);
+            color: #f4f8ff;
+        }
+
+        .brand-logo {
+            width: 270px;
+            height: 210px;
+            object-fit: cover;
+            border: 7px solid #087ff5;
+            border-radius: 20px;
+            padding: 8px;
+            background: #071529;
+            box-shadow: 0 0 22px rgba(0, 139, 255, .4);
+        }
+
+        .brand-title {
+            font-weight: 800;
+        }
+
+        .brand-title span {
+            color: #00cfff;
+        }
+
+        .result-card {
+            max-width: 720px;
+            margin: 24px auto;
+            background: rgba(9, 27, 48, .82);
+            border: 1px solid rgba(130, 170, 210, .18);
+            border-radius: 22px;
+            box-shadow: 0 18px 50px rgba(0, 0, 0, .28);
+        }
+
+        .meta-badge {
+            display: inline-block;
+            background: #071d31;
+            border: 1px solid #1d4965;
+            color: #8bdfff;
+            border-radius: 20px;
+            padding: 6px 11px;
+            font-size: .78rem;
+            margin: 2px;
+        }
+
+        .label {
+            color: #7f9bb5;
+            font-size: .78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+
+        .source-box,
+        .result-box {
+            background: #061426;
+            border: 1px solid #1d3855;
+            border-radius: 14px;
+            padding: 18px;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .result-box {
+            border-color: rgba(0, 190, 235, .35);
+            min-height: 180px;
+            line-height: 1.65;
+        }
+
+        .back-btn {
+            border: 1px solid #17658c;
+            color: #8bdfff;
+            border-radius: 10px;
+        }
+
+        .back-btn:hover {
+            background: #0b2c43;
+            color: white;
+        }
+
+        .footer {
+            color: #58718a;
+            font-size: .8rem;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container py-4 py-md-5">
+
+    <div class="text-center">
+        <img src="{{ url_for('static', filename='new.jpg') }}"
+             alt="FOX AI"
+             class="brand-logo">
+
+        <h2 class="brand-title mt-3">
+            🤖 AI <span> Study Assistant</span>
+        </h2>         
+
+        
+
+    </div>
+
+    <div class="result-card p-3 p-md-4">
+
+        <div class="text-center mb-4">
+            <span class="meta-badge">{{ content_type }}</span>
+            <span class="meta-badge">{{ tone }}</span>
+            <span class="meta-badge">{{ length }}</span>
+        </div>
+
+        
+
+        <div>
+            <div class="label mb-2">Generated Output</div>
+
+            <div class="result-box">
+                {{ result }}
+            </div>
+        </div>
+
+        <div class="d-flex gap-2 mt-4">
+            <a href="{{ url_for('home') }}" class="btn back-btn px-4">
+                ← Back to Home
+            </a>
+        </div>
+
+    </div>
+
+    <div class="text-center footer mt-4">
+         New College,Kolhapur
+    </div>
+</div>
+</body>
+</html>

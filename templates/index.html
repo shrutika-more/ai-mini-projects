@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My College AI Projects</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #eaf4ff, #ffffff);
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        .header {
+            background: white;
+            padding: 35px 20px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            width: 300px;
+            height: 200px;
+            object-fit: contain;
+        }
+
+        h1 {
+            margin: 15px 0 5px;
+            color: #222;
+            font-size: 30px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 17px;
+        }
+
+        .projects {
+            padding: 35px 20px;
+        }
+
+        .projects h2 {
+            color: #222;
+            margin-bottom: 30px;
+        }
+
+        .project-btn {
+            display: block;
+            width: 320px;
+            max-width: 90%;
+            margin: 18px auto;
+            padding: 16px;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+            background: linear-gradient(90deg, #087cf0, #05b7df);
+            border-radius: 10px;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.2);
+        }
+
+        .project-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 123, 255, 0.3);
+        }
+
+        .footer {
+            margin-top: 30px;
+            color: #777;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- College Logo + Name -->
+
+    <div class="header">
+
+        <img src="{{ url_for('static', filename='new.jpg') }}" alt="College Logo" class="logo">
+        <h1 style="margin-top: 0px;font-size: 20px;font-weight: bold;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">New College, Kolhapur</h1>
+
+        <div class="subtitle">
+            Flask Mini Projects
+        </div>
+
+    </div>
+
+
+    <!-- Four Projects -->
+
+    <div class="projects">
+
+        <h2>My AI Mini Projects</h2>
+
+        <a href="http://127.0.0.1:5001/home" class="project-btn">
+            🤖 AI Study Assistant
+        </a>
+
+        <a href="http://127.0.0.1:5002/home" class="project-btn">
+            🌦️ AI Weather Buddy
+        </a>
+
+        <a href="http://127.0.0.1:5003/home" class="project-btn">
+            ✍️ AI Text Generator
+        </a>
+
+        <a href="http://127.0.0.1:5004/index" class="project-btn">
+            🌐 AI Translator
+        </a>
+
+    </div>
+
+
+    <div class="footer">
+        The New College ,Kolhapur
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>FOX AI Text Generator</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at 50% 10%, rgba(0, 140, 255, .12), transparent 32%),
+                linear-gradient(135deg, #06172b, #03101f 70%, #06202d);
+            color: #f4f8ff;
+        }
+
+        .brand-logo {
+            width: 270px;
+            height: 210px;
+            object-fit: cover;
+            border: 10px solid #087ff5;
+            border-radius: 24px;
+            padding: 12px;
+            background: #071529;
+            box-shadow: 0 0 25px rgba(0, 139, 255, .45);
+        }
+
+        .brand-title {
+            font-weight: 800;
+            letter-spacing: -.5px;
+        }
+
+        .brand-title span {
+            color: #00cfff;
+        }
+
+        .subtitle {
+            color: #91a8bf;
+        }
+
+        .generator-card {
+            max-width: 620px;
+            margin: 20px auto;
+            background: rgba(9, 27, 48, .78);
+            border: 1px solid rgba(130, 170, 210, .18);
+            border-radius: 22px;
+            box-shadow: 0 18px 50px rgba(0, 0, 0, .28);
+        }
+
+        .form-label {
+            color: #a9bdd1;
+            font-size: .85rem;
+            font-weight: 600;
+        }
+
+        .form-select,
+        .form-control {
+            background-color: #061426;
+            border-color: #1d3855;
+            color: #eef6ff;
+        }
+
+        .form-select:focus,
+        .form-control:focus {
+            background-color: #061426;
+            color: #fff;
+            border-color: #08a9e8;
+            box-shadow: 0 0 0 .2rem rgba(0, 169, 232, .12);
+        }
+
+        .form-control::placeholder {
+            color: #4b6278;
+        }
+
+        .generate-btn {
+            border: 0;
+            background: linear-gradient(90deg, #087cf0, #05b7df);
+            color: white;
+            font-weight: 700;
+            border-radius: 12px;
+            padding: 13px 18px;
+        }
+
+        .generate-btn:hover {
+            filter: brightness(1.08);
+            color: white;
+        }
+
+        .footer {
+            color: #58718a;
+            font-size: .8rem;
+        }
+
+        .helper {
+            color: #637c93;
+            font-size: .78rem;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container py-4 py-md-5">
+
+    <div class="text-center">
+        <img src="{{ url_for('static', filename='new.jpg') }}"
+             alt="FOX AI"
+             class="brand-logo">
+
+        <h1 class="brand-title mt-3 mb-1">
+            <span>AI Text Generator</span>
+        </h1>
+
+        <p class="subtitle mb-4">Write smarter. Create faster.</p>
+    </div>
+
+    <div class="generator-card p-3 p-md-4">
+        <form action="{{ url_for('generate') }}" method="POST">
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label for="content_type" class="form-label">Create</label>
+                    <select id="content_type" name="content_type" class="form-select form-select-lg">
+                        <option {% if content_type|default('Essay') == 'Essay' %}selected{% endif %}>Essay</option>
+                        <option {% if content_type|default('') == 'Email' %}selected{% endif %}>Email</option>
+                        <option {% if content_type|default('') == 'Blog' %}selected{% endif %}>Blog Post</option>
+                        <option {% if content_type|default('') == 'Social Media Post' %}selected{% endif %}>Social Media Post</option>
+                        <option {% if content_type|default('') == 'Story' %}selected{% endif %}>Story</option>
+                        <option {% if content_type|default('') == 'Product Description' %}selected{% endif %}>Product Description</option>
+                        <option {% if content_type|default('') == 'Summary' %}selected{% endif %}>Summary</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="tone" class="form-label">Tone</label>
+                    <select id="tone" name="tone" class="form-select form-select-lg">
+                        <option {% if tone|default('Professional') == 'Professional' %}selected{% endif %}>Professional</option>
+                        <option {% if tone|default('') == 'Friendly' %}selected{% endif %}>Friendly</option>
+                        <option {% if tone|default('') == 'Formal' %}selected{% endif %}>Formal</option>
+                        <option {% if tone|default('') == 'Casual' %}selected{% endif %}>Casual</option>
+                        <option {% if tone|default('') == 'Persuasive' %}selected{% endif %}>Persuasive</option>
+                        <option {% if tone|default('') == 'Creative' %}selected{% endif %}>Creative</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="length" class="form-label">Length</label>
+                <select id="length" name="length" class="form-select form-select-lg">
+                    <option {% if length|default('Medium') == 'Short' %}selected{% endif %}>Short</option>
+                    <option {% if length|default('Medium') == 'Medium' %}selected{% endif %}>Medium</option>
+                    <option {% if length|default('') == 'Long' %}selected{% endif %}>Long</option>
+                </select>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <label for="prompt" class="form-label mb-0">What do you want to create?</label>
+                <small id="counter" class="text-secondary">0 characters</small>
+            </div>
+
+            <textarea
+                id="prompt"
+                name="prompt"
+                class="form-control"
+                rows="5"
+                maxlength="5000"
+                placeholder="Example: Write an essay about how artificial intelligence is changing education..."
+                required>{{ prompt|default('') }}</textarea>
+
+            <div class="helper mt-2">
+                Give  AI a topic, idea, or instruction.
+            </div>
+
+            {% if error %}
+                <div class="alert alert-danger mt-3 mb-0 py-2">
+                    {{ error }}
+                </div>
+            {% endif %}
+
+            <button type="submit" class="btn generate-btn w-100 mt-3">
+                ✨ Generate with  AI
+            </button>
+        </form>
+    </div>
+
+    <div class="text-center footer mt-4">
+         New College,Kolhapur
+    </div>
+</div>
+
+<script>
+    const textarea = document.getElementById("prompt");
+    const counter = document.getElementById("counter");
+
+    function updateCounter() {
+        counter.textContent = textarea.value.length + " characters";
+    }
+
+    textarea.addEventListener("input", updateCounter);
+    updateCounter();
+</script>
+
+</body>
+</html>
